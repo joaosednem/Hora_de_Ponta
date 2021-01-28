@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Hora de Ponta</string>
+    <string name="BLE_Count">BLE_Count :</string>
+</resources>

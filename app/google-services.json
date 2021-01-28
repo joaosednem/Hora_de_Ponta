@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "573680668608",
+    "firebase_url": "https://hora-de-ponta-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "hora-de-ponta",
+    "storage_bucket": "hora-de-ponta.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:573680668608:android:389b9727fc79a25d8a0225",
+        "android_client_info": {
+          "package_name": "ipvc.estg.horadeponta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "573680668608-bqv6b1q8ea0map8kk06risvd9gun160b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ipvc.estg.horadeponta",
+            "certificate_hash": "a0ba04333ed6a54f622f0f01c67d8036ad4d4e08"
+          }
+        },
+        {
+          "client_id": "573680668608-km208nq7237f8orfrbqpjle97d1dr6b2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCe2Oyf5sxm6abcovxGlEpd-liIMquaYRA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "573680668608-km208nq7237f8orfrbqpjle97d1dr6b2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
