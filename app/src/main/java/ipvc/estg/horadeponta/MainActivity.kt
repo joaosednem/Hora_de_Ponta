@@ -1,7 +1,11 @@
 package ipvc.estg.horadeponta
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.widget.Toast
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -128,5 +132,34 @@ class MainActivity : AppCompatActivity()
         database.addValueEventListener(getdata)
         database.addListenerForSingleValueEvent(getdata)
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean   // função da escolha do menu por atividade
+    {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean     // função da definição das abas do Menu
+    {
+        // Handle item selection
+        return when (item.itemId)
+        {
+            R.id.pie_chart ->
+            {
+                val intent = Intent(this,Chart_1::class.java) // go to Login activity
+
+                //intent.putExtra("L", true)
+
+                startActivity(intent)
+                true
+            }
+            R.id.chart2 -> {
+                Toast.makeText(this, "opcao2", Toast.LENGTH_SHORT).show()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }
