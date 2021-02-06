@@ -70,25 +70,25 @@ class MainActivity : AppCompatActivity()
                         .fontSize(17)
                 linearGauge.label(0).text("BLE Count")
 
-                /*
+
                 linearGauge.label(1)
                         .position(Position.LEFT_CENTER)
                         .anchor(Anchor.LEFT_CENTER)
                         .offsetY("40px")
-                        .offsetX("50px")
+                        .offsetX("30px")
                         .fontColor("#777777")
                         .fontSize(15)
-                linearGauge.label(1).text("No Noise")
+                linearGauge.label(1).text("Ocupação Baixa")
 
                 linearGauge.label(2)
                         .position(Position.RIGHT_CENTER)
                         .anchor(Anchor.RIGHT_CENTER)
                         .offsetY("40px")
-                        .offsetX("50px")
+                        .offsetX("30px")
                         .fontColor("#777777")
                         .fontSize(15)
-                linearGauge.label(2).text("Noise Detected")
-                 */
+                linearGauge.label(2).text("Ocupação Alta")
+
 
                 val scaleBarColorScale = OrdinalColor.instantiate()
                 scaleBarColorScale.ranges(arrayOf(
@@ -125,7 +125,6 @@ class MainActivity : AppCompatActivity()
 
                 anyChartView.setChart(linearGauge)
 
-
             }
         }
 
@@ -148,15 +147,17 @@ class MainActivity : AppCompatActivity()
         {
             R.id.pie_chart ->
             {
-                val intent = Intent(this,Chart_1::class.java) // go to Login activity
+                val intent = Intent(this,Chart_1::class.java) // go to Chart_1 activity
 
                 //intent.putExtra("L", true)
 
                 startActivity(intent)
                 true
             }
-            R.id.chart2 -> {
-                Toast.makeText(this, "opcao2", Toast.LENGTH_SHORT).show()
+            R.id.chart2 ->
+            {
+                val intent = Intent(this,Chart_2::class.java) // go to Chart_2 activity
+                startActivity(intent)
                 true
             }
             else -> super.onOptionsItemSelected(item)

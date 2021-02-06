@@ -11,23 +11,23 @@ import com.anychart.AnyChart
 import com.anychart.AnyChartView
 import com.anychart.chart.common.dataentry.DataEntry
 import com.anychart.chart.common.dataentry.ValueDataEntry
-import com.anychart.chart.common.listener.Event
-import com.anychart.chart.common.listener.ListenersInterface
-import com.anychart.enums.Align
-import com.anychart.enums.LegendLayout
+import com.anychart.enums.Anchor
+import com.anychart.enums.HoverMode
+import com.anychart.enums.Position
+import com.anychart.enums.TooltipPositionMode
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import kotlinx.android.synthetic.main.activity_main.*
 
 
-class Chart_1 : AppCompatActivity()
+class Chart_2 : AppCompatActivity()
 {
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.chart_1)
+        setContentView(R.layout.chart_2)
+
 
         var database = FirebaseDatabase.getInstance().reference
 
@@ -37,9 +37,9 @@ class Chart_1 : AppCompatActivity()
             override fun onCancelled(error: DatabaseError)
             {
                 Toast.makeText(
-                    baseContext,
-                    "Error Connecting to Realtime Database",
-                    Toast.LENGTH_SHORT
+                        baseContext,
+                        "Error Connecting to Realtime Database",
+                        Toast.LENGTH_SHORT
                 ).show()
             }
 
@@ -54,37 +54,38 @@ class Chart_1 : AppCompatActivity()
                 val anyChartView = findViewById<AnyChartView>(R.id.any_chart_view)
                 anyChartView.setProgressBar(findViewById(R.id.progress_bar))
 
-                val pie = AnyChart.pie()
-
-                pie.setOnClickListener(object : ListenersInterface.OnClickListener(arrayOf("x", "value"))
-                {
-                    override fun onClick(event: Event)
-                    {
-                        Toast.makeText(this@Chart_1, event.data["x"].toString() + ":" + event.data["value"], Toast.LENGTH_SHORT).show()
-                    }
-                })
+                val cartesian = AnyChart.column()
 
                 val data: MutableList<DataEntry> = ArrayList()
-                data.add(ValueDataEntry("Blutooth", ble_count))
-                data.add(ValueDataEntry("Wi-Fi", 5))
+                data.add(ValueDataEntry("30 mins", 6))
+                data.add(ValueDataEntry("15 mins", 5))
+                data.add(ValueDataEntry("5 mins", 4))
+                data.add(ValueDataEntry("1 min", ble_count))
 
-                pie.data(data)
+                val column = cartesian.column(data)
 
-                pie.title("Dispositivos")
+                column.tooltip()
+                        .titleFormat("{%X}")
+                        .position(Position.CENTER_BOTTOM)
+                        .anchor(Anchor.CENTER_BOTTOM)
+                        .offsetX(0.0)
+                        .offsetY(5.0)
+                        .format("{%Value}{groupsSeparator: }")
 
-                pie.labels().position("outside")
+                cartesian.animation(true)
+                cartesian.title("Ocupação / Tempo")
 
-                pie.legend().title().enabled(true)
-                pie.legend().title()
-                    .text("Métodos")
-                    .padding(0.0, 0.0, 10.0, 0.0)
+                cartesian.yScale().minimum(0.0)
 
-                pie.legend()
-                    .position("center-bottom")
-                    .itemsLayout(LegendLayout.HORIZONTAL)
-                    .align(Align.CENTER)
+                cartesian.yAxis(0).labels().format("{%Value}{groupsSeparator: }")
 
-                anyChartView.setChart(pie)
+                cartesian.tooltip().positionMode(TooltipPositionMode.POINT)
+                cartesian.interactivity().hoverMode(HoverMode.BY_X)
+
+                cartesian.xAxis(0).title("Tempo")
+                cartesian.yAxis(0).title("Ocupação")
+
+                anyChartView.setChart(cartesian)
 
             }
         }
@@ -96,7 +97,7 @@ class Chart_1 : AppCompatActivity()
     override fun onCreateOptionsMenu(menu: Menu): Boolean   // função da escolha do menu por atividade
     {
         val inflater: MenuInflater = menuInflater
-        inflater.inflate(R.menu.menu2, menu)
+        inflater.inflate(R.menu.menu3, menu)
         return true
     }
 
@@ -105,20 +106,18 @@ class Chart_1 : AppCompatActivity()
         // Handle item selection
         return when (item.itemId)
         {
-            R.id.bar_chart ->
-            {
-                val intent = Intent(this,MainActivity::class.java) // go to MainActivity
+            R.id.bar_chart -> {
+                val intent = Intent(this, MainActivity::class.java) // go to MainActivity
                 startActivity(intent)
                 true
             }
-            R.id.chart2 ->
+            R.id.pie_chart ->
             {
-                val intent = Intent(this,Chart_2::class.java) // go to Chart_2 activity
+                val intent = Intent(this, Chart_1::class.java) // go to Chart_1 activity
                 startActivity(intent)
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
-
 }
