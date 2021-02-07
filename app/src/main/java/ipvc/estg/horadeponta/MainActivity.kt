@@ -1,32 +1,31 @@
 package ipvc.estg.horadeponta
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
+import com.anychart.AnyChart
+import com.anychart.AnyChartView
+import com.anychart.chart.common.dataentry.SingleValueDataSet
+import com.anychart.enums.*
+import com.anychart.scales.OrdinalColor
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_main.*
-
-import com.anychart.AnyChart;
-import com.anychart.AnyChartView;
-import com.anychart.chart.common.dataentry.SingleValueDataSet;
-import com.anychart.charts.LinearGauge;
-import com.anychart.enums.Anchor;
-import com.anychart.enums.Layout;
-import com.anychart.enums.MarkerType;
-import com.anychart.enums.Orientation;
-import com.anychart.enums.Position;
-import ipvc.estg.horadeponta.R;
-import com.anychart.scales.OrdinalColor;
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 
 class MainActivity : AppCompatActivity()
 {
+
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
@@ -42,14 +41,39 @@ class MainActivity : AppCompatActivity()
                 Toast.makeText(baseContext, "Error Connecting to Realtime Database", Toast.LENGTH_SHORT).show()
             }
 
+            @RequiresApi(Build.VERSION_CODES.O)
             override fun onDataChange(snapshot: DataSnapshot)
             {
 
-                var BLE_Count = snapshot.child("/BLE_count").getValue().toString()
+                var BLE_Count = snapshot.child("/bluetooth/BLE_count").getValue().toString()
+                var Wifi_Count = snapshot.child("/wifi/count").getValue().toString()
 
                 var ble_count = BLE_Count.toInt()
+                var wifi_count = Wifi_Count.toInt()
+
+                var dispositivos = (ble_count + wifi_count) / 2
+                var Dispositivos = dispositivos.toString()
 
                 value_ble.text = BLE_Count
+                value_wifi.text = Wifi_Count
+                value_disp.text = Dispositivos
+
+                //////////////////////////////////////////////////////////////////////
+                // Current Time and Date
+                val current_time = LocalDateTime.now()
+                val t1 = current_time.minus(5, ChronoUnit.MINUTES)
+                //////////////////////////////////////////////////////////////////////
+                // Format to Time (HH:mm:ss)
+                val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
+                val t = current_time.format(formatter)
+                val t2 = t1.format(formatter)
+                //////////////////////////////////////////////////////////////////////
+                // Current Millis
+                val time = System.currentTimeMillis()
+                val t5 = time + 300000
+
+                //value_wifi.text = t.toString()
+                //value_disp.text = t2.toString()
 
 
                 val anyChartView = findViewById<AnyChartView>(R.id.any_chart_view)
@@ -145,18 +169,16 @@ class MainActivity : AppCompatActivity()
         // Handle item selection
         return when (item.itemId)
         {
-            R.id.pie_chart ->
-            {
-                val intent = Intent(this,Chart_1::class.java) // go to Chart_1 activity
+            R.id.pie_chart -> {
+                val intent = Intent(this, Chart_1::class.java) // go to Chart_1 activity
 
                 //intent.putExtra("L", true)
 
                 startActivity(intent)
                 true
             }
-            R.id.chart2 ->
-            {
-                val intent = Intent(this,Chart_2::class.java) // go to Chart_2 activity
+            R.id.chart2 -> {
+                val intent = Intent(this, Chart_2::class.java) // go to Chart_2 activity
                 startActivity(intent)
                 true
             }

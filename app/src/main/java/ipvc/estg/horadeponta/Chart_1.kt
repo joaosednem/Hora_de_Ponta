@@ -46,9 +46,11 @@ class Chart_1 : AppCompatActivity()
             override fun onDataChange(snapshot: DataSnapshot)
             {
 
-                var BLE_Count = snapshot.child("/BLE_count").getValue().toString()
+                var BLE_Count = snapshot.child("/bluetooth/BLE_count").getValue().toString()
+                var Wifi_Count = snapshot.child("/wifi/count").getValue().toString()
 
                 var ble_count = BLE_Count.toInt()
+                var wifi_count = Wifi_Count.toInt()
 
 
                 val anyChartView = findViewById<AnyChartView>(R.id.any_chart_view)
@@ -66,7 +68,7 @@ class Chart_1 : AppCompatActivity()
 
                 val data: MutableList<DataEntry> = ArrayList()
                 data.add(ValueDataEntry("Blutooth", ble_count))
-                data.add(ValueDataEntry("Wi-Fi", 5))
+                data.add(ValueDataEntry("Wi-Fi", wifi_count))
 
                 pie.data(data)
 

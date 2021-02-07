@@ -19,6 +19,8 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 class Chart_2 : AppCompatActivity()
@@ -46,9 +48,13 @@ class Chart_2 : AppCompatActivity()
             override fun onDataChange(snapshot: DataSnapshot)
             {
 
-                var BLE_Count = snapshot.child("/BLE_count").getValue().toString()
+                var BLE_Count = snapshot.child("/bluetooth/BLE_count").getValue().toString()
+                var Wifi_Count = snapshot.child("/wifi/count").getValue().toString()
 
                 var ble_count = BLE_Count.toInt()
+                var wifi_count = Wifi_Count.toInt()
+
+                var dispositivos = (ble_count + wifi_count) / 2
 
 
                 val anyChartView = findViewById<AnyChartView>(R.id.any_chart_view)
@@ -60,7 +66,7 @@ class Chart_2 : AppCompatActivity()
                 data.add(ValueDataEntry("30 mins", 6))
                 data.add(ValueDataEntry("15 mins", 5))
                 data.add(ValueDataEntry("5 mins", 4))
-                data.add(ValueDataEntry("1 min", ble_count))
+                data.add(ValueDataEntry("1 min", dispositivos))
 
                 val column = cartesian.column(data)
 
