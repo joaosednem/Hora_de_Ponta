@@ -49,10 +49,16 @@ class Chart_2 : AppCompatActivity()
             {
 
                 var BLE_Count = snapshot.child("/bluetooth/BLE_count").getValue().toString()
-                var Wifi_Count = snapshot.child("/wifi/count").getValue().toString()
+                var Wifi_Count = snapshot.child("/wifi/Counters/counter").getValue().toString()
+                var Wifi_Count_5 = snapshot.child("/wifi/Counters/counter5").getValue().toString()
+                var Wifi_Count_15 = snapshot.child("/wifi/Counters/counter15").getValue().toString()
+                var Wifi_Count_30 = snapshot.child("/wifi/Counters/counter30").getValue().toString()
 
                 var ble_count = BLE_Count.toInt()
                 var wifi_count = Wifi_Count.toInt()
+                var wifi_count_5 = Wifi_Count_5.toInt()
+                var wifi_count_15 = Wifi_Count_15.toInt()
+                var wifi_count_30 = Wifi_Count_30.toInt()
 
                 var dispositivos = (ble_count + wifi_count) / 2
 
@@ -63,9 +69,9 @@ class Chart_2 : AppCompatActivity()
                 val cartesian = AnyChart.column()
 
                 val data: MutableList<DataEntry> = ArrayList()
-                data.add(ValueDataEntry("30 mins", 6))
-                data.add(ValueDataEntry("15 mins", 5))
-                data.add(ValueDataEntry("5 mins", 4))
+                data.add(ValueDataEntry("30 mins", wifi_count_30))
+                data.add(ValueDataEntry("15 mins", wifi_count_15))
+                data.add(ValueDataEntry("5 mins", wifi_count_5))
                 data.add(ValueDataEntry("1 min", dispositivos))
 
                 val column = cartesian.column(data)

@@ -47,7 +47,7 @@ class Chart_1 : AppCompatActivity()
             {
 
                 var BLE_Count = snapshot.child("/bluetooth/BLE_count").getValue().toString()
-                var Wifi_Count = snapshot.child("/wifi/count").getValue().toString()
+                var Wifi_Count = snapshot.child("/wifi/Counters/counter").getValue().toString()
 
                 var ble_count = BLE_Count.toInt()
                 var wifi_count = Wifi_Count.toInt()
