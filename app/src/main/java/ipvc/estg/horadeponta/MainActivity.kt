@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity()
             override fun onDataChange(snapshot: DataSnapshot)
             {
 
-                var BLE_Count = snapshot.child("/bluetooth/BLE_count").getValue().toString()
+                var BLE_Count = snapshot.child("/bluetooth/Counters/BLE_count").getValue().toString()
                 var Wifi_Count = snapshot.child("/wifi/Counters/counter").getValue().toString()
 
                 var ble_count = BLE_Count.toInt()
