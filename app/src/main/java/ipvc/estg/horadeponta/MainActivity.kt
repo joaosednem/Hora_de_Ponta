@@ -54,26 +54,7 @@ class MainActivity : AppCompatActivity()
                 var dispositivos = (ble_count + wifi_count) / 2
                 var Dispositivos = dispositivos.toString()
 
-                value_ble.text = BLE_Count
-                value_wifi.text = Wifi_Count
                 value_disp.text = Dispositivos
-
-                //////////////////////////////////////////////////////////////////////
-                // Current Time and Date
-                val current_time = LocalDateTime.now()
-                val t1 = current_time.minus(5, ChronoUnit.MINUTES)
-                //////////////////////////////////////////////////////////////////////
-                // Format to Time (HH:mm:ss)
-                val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
-                val t = current_time.format(formatter)
-                val t2 = t1.format(formatter)
-                //////////////////////////////////////////////////////////////////////
-                // Current Millis
-                val time = System.currentTimeMillis()
-                val t5 = time + 300000
-
-                //value_wifi.text = t.toString()
-                //value_disp.text = t2.toString()
 
 
                 val anyChartView = findViewById<AnyChartView>(R.id.any_chart_view)
@@ -81,7 +62,7 @@ class MainActivity : AppCompatActivity()
 
                 val linearGauge = AnyChart.linear()
 
-                linearGauge.data(SingleValueDataSet(arrayOf(ble_count)))
+                linearGauge.data(SingleValueDataSet(arrayOf(dispositivos)))
 
                 linearGauge.layout(Layout.HORIZONTAL)
 
@@ -92,7 +73,7 @@ class MainActivity : AppCompatActivity()
                         .offsetX("50px")
                         .fontColor("black")
                         .fontSize(17)
-                linearGauge.label(0).text("BLE Count")
+                linearGauge.label(0).text("Contagem de Dispositivos")
 
 
                 linearGauge.label(1)

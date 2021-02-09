@@ -49,13 +49,14 @@ class Chart_2 : AppCompatActivity()
             {
 
                 var BLE_Count = snapshot.child("/bluetooth/Counters/BLE_count").getValue().toString()
-                var BLE_Count_5 = snapshot.child("/bluetooth/Counters/BLE_count_5").getValue().toString()
-                var BLE_Count_15 = snapshot.child("/bluetooth/Counters/BLE_count_15").getValue().toString()
-                var BLE_Count_30 = snapshot.child("/bluetooth/Counters/BLE_count_30").getValue().toString()
+                var BLE_Count_5 = snapshot.child("/bluetooth/Counters/BLE_Count_5").getValue().toString()
+                var BLE_Count_15 = snapshot.child("/bluetooth/Counters/BLE_Count_15").getValue().toString()
+                var BLE_Count_30 = snapshot.child("/bluetooth/Counters/BLE_Count_30").getValue().toString()
                 var Wifi_Count = snapshot.child("/wifi/Counters/counter").getValue().toString()
                 var Wifi_Count_5 = snapshot.child("/wifi/Counters/counter5").getValue().toString()
                 var Wifi_Count_15 = snapshot.child("/wifi/Counters/counter15").getValue().toString()
                 var Wifi_Count_30 = snapshot.child("/wifi/Counters/counter30").getValue().toString()
+                var Num_Scans = snapshot.child("/bluetooth/Counters/Num_Scans").getValue().toString()
 
                 var ble_count = BLE_Count.toInt()
                 var ble_count_5 = BLE_Count_5.toInt()
@@ -65,6 +66,42 @@ class Chart_2 : AppCompatActivity()
                 var wifi_count_5 = Wifi_Count_5.toInt()
                 var wifi_count_15 = Wifi_Count_15.toInt()
                 var wifi_count_30 = Wifi_Count_30.toInt()
+                var num_scans = Num_Scans.toInt()
+
+                var disp_5 = (ble_count_5 + wifi_count_5) / 2
+                var disp_15 = (ble_count_15 + wifi_count_15) / 2
+                var disp_30 = (ble_count_30 + wifi_count_30) / 2
+
+                var dispositivos_5 = 0
+                var dispositivos_15 = 0
+                var dispositivos_30 = 0
+
+                if (num_scans < 60)
+                {
+                    dispositivos_5 = disp_5/num_scans
+                }
+                else
+                {
+                    dispositivos_5 = disp_5/60
+                }
+
+                if (num_scans < 180)
+                {
+                    dispositivos_15 = disp_15/num_scans
+                }
+                else
+                {
+                    dispositivos_15 = disp_15/180
+                }
+
+                if (num_scans < 360)
+                {
+                    dispositivos_30 = disp_30/num_scans
+                }
+                else
+                {
+                    dispositivos_30 = disp_30/360
+                }
 
                 var dispositivos = (ble_count + wifi_count) / 2
 
@@ -75,9 +112,9 @@ class Chart_2 : AppCompatActivity()
                 val cartesian = AnyChart.column()
 
                 val data: MutableList<DataEntry> = ArrayList()
-                data.add(ValueDataEntry("30 mins", wifi_count_30))
-                data.add(ValueDataEntry("15 mins", wifi_count_15))
-                data.add(ValueDataEntry("5 mins", wifi_count_5))
+                data.add(ValueDataEntry("30 mins", dispositivos_30))
+                data.add(ValueDataEntry("15 mins", dispositivos_15))
+                data.add(ValueDataEntry("5 mins", dispositivos_5))
                 data.add(ValueDataEntry("1 min", dispositivos))
 
                 val column = cartesian.column(data)
